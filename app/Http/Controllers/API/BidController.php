@@ -52,13 +52,13 @@ class BidController extends Controller
         $item = Item::find($data['item_id']);
 
         if ($data['amount'] <= $item->price) {
-            return response(['message' => 'Please bid a higher value then the initial price'], 403);
+            return response(['message' => 'Please bid a higher value then the initial price'], 200);
         }
 
         $latestBid = Bid::select('amount')->where('item_id', $data['item_id'])->orderByDesc('created_at',)->limit(1)->first();
 
         if ($data['amount'] <= $latestBid->amount) {
-            return response(['message' => 'Please bid a higher value then the latest bid'], 403);
+            return response(['message' => 'Please bid a higher value then the latest bid'], 200);
         }
 
         $bid = Bid::create($data);
